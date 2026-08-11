@@ -1,0 +1,21 @@
+name: automl-api
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - fastapi=0.141
+  - fastapi-users
+  - uuid6
+  - structlog
+  - python-dotenv
+  - psycopg
+  - sqlalchemy
+  - pydantic
+  - sqlmodel
+  - uvicorn
+  - sqlacodegen
+  - alembic
+  - strawberry-graphql
+  - pycaret
+  - rdkit
+  - sentry-sdk
