@@ -1,0 +1,79 @@
+services:
+  postgres:
+    image: tyamadabiodataeng/pharma-automl-api-postgres-dev
+    container_name: postgres
+    build:
+      context: ./postgres
+      dockerfile: ../dockerfiles/postgres/Dockerfile
+    environment:
+      - TZ=Asia/Tokyo
+    env_file:
+      - ./postgres/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pharmaautomlapi_pg_data:/var/lib/postgresql
+    networks:
+      - pharmaautomlapi-network
+  fastapi:
+    image: tyamadabiodataeng/pharma-automl-api-fastapi-dev
+    container_name: fastapi
+    build:
+      context: ./app
+      dockerfile: ../dockerfiles/fastapi/Dockerfile
+      args:
+        DIR_WORK: "/usr/src"
+        ENV_YAML: "environment.dev.yaml"
+        VENV: "automl-api"
+    command: mamba run -n automl-api uvicorn main:app --host=0.0.0.0 --port=8000
+    volumes:
+      - ./app:/usr/src
+    expose:
+      - "8000"
+    depends_on:
+      - postgres
+    networks:
+      - pharmaautomlapi-network
+  nginx:
+    image: tyamadabiodataeng/pharma-automl-api-nginx
+    container_name: nginx
+    build: 
+      context: ./nginx
+      dockerfile: ../dockerfiles/nginx/Dockerfile
+    volumes:
+      - ./app/static:/usr/src/static
+      - ./app/media:/usr/src/media
+    ports:
+      - "80:80"
+    depends_on:
+      - fastapi
+    networks:
+      - pharmaautomlapi-network
+  jupyter:
+    build: 
+      context: ./notebooks
+      dockerfile: ../dockerfiles/jupyter/Dockerfile
+      args:
+        DIR_WORK: "/usr/src"
+        ENV_YAML: "environment.yaml"
+        VENV: "dbms-jupyter"
+    image: tyamadabiodataeng/pharma-automl-api-jupyter
+    container_name: jupyter
+    command: mamba run -n dbms-jupyter jupyter lab --ip=0.0.0.0 --allow-root --LabApp.token=''
+    ports:
+     - "8888:8888"
+    volumes:
+     - ./notebooks:/usr/src
+    tty: true
+    stdin_open: true
+    depends_on:
+      - nginx
+    networks:
+      - pharmaautomlapi-network
+
+networks:
+  pharmaautomlapi-network:
+    driver: bridge
+
+volumes:
+  pharmaautomlapi_pg_data:
