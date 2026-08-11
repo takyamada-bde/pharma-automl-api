@@ -10,6 +10,7 @@ dependencies:
   - python-dotenv
   - psycopg
   - sqlalchemy
+  - sqlalchemy-utils
   - pydantic
   - sqlmodel
   - uvicorn
