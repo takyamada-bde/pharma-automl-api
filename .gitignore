@@ -3,6 +3,7 @@
 # System files
 **/.*
 !**/.dockerignore
+!**/.devcontainer
 !**/.env.example
 !**/.github
 !**/.gitignore
