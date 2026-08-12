@@ -4,6 +4,7 @@
 **/.*
 !**/.dockerignore
 !**/.env.example
+!**/.github
 !**/.gitignore
 !**/.gitkeep
 
