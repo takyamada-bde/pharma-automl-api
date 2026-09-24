@@ -12,6 +12,7 @@ dependencies:
   - sqlalchemy
   - sqlalchemy-utils
   - pydantic
+  - pydantic-settings
   - sqlmodel
   - uvicorn
   - sqlacodegen
