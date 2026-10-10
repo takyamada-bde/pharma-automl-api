@@ -1,3 +1,71 @@
+[Project]
+name = "pharma-automl-fastapi"
+version = "0.1.0"
+description = "A FastAPI application for Pharma AutoML"
+requires-python = ">=3.12"
+dependencies = [
+    "uuid6",
+    "structlog",
+    "psycopg[binary]",
+    "sqlalchemy[asyncio]",
+    "sqlalchemy-utils",
+    "pydantic",
+    "pydantic-settings",
+    "sqlmodel",
+    "uvicorn[standard]",
+    "fastapi[standard]",
+    "fastapi-users[sqlalchemy]",
+    "fastapi-structlog",
+    "sqlacodegen",
+    "alembic",
+    "strawberry-graphql[asgi, fastapi]",
+    "sentry-sdk",
+    "numpy",
+    "scipy",
+    "statsmodels",
+    "pandas[performance, computation]",
+    "polars-lts-cpu",
+    "ibis-framework[pandas, polars, postgres]",
+    "pandera[pandas, polars, ibis]",
+    "scikit-learn",
+    "xgboost",
+    "lightgbm",
+    "catboost",
+    "optuna",
+    "hyperopt",
+    "ray",
+    "torch",
+    "pycaret",
+    "rdkit",
+]
+
+[dependency-groups]
+dev = [
+    "black",
+    "ruff",
+    "mypy",
+    "tox",
+    "pandera[mypy]",
+    "zensical",
+    "fastapi-debug-toolbar",
+    "httpx",
+    "factory_boy",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-factoryboy",
+    "pytest-randomly",
+    "pytest-structlog",
+]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cpu" }
+
 [tool.tox]
 legacy_tox_ini = """
     [tox]
@@ -20,12 +88,6 @@ legacy_tox_ini = """
     commands = mypy .
 """
 
-[tool.pytest.ini_options]
-python_files = ["test_*.py"]
-addopts = "-v --reuse-db"
-testpaths = ["tests"]
-norecursedirs = '.venv'
-
 [tool.ruff]
 lint.ignore = ['E501']
 lint.select = [
@@ -40,3 +102,8 @@ src = ['.']
 
 [tool.ruff.format]
 quote-style = 'single'
+
+[tool.pytest.ini_options]
+python_files = ["test_*.py"]
+testpaths = ["tests"]
+norecursedirs = '.venv'
