@@ -23,7 +23,7 @@ dependencies = [
     "numpy",
     "scipy",
     "statsmodels",
-    "pandas[performance, computation]",
+    "pandas[performance, computation, hdf5]",
     "polars-lts-cpu",
     "ibis-framework[pandas, polars, postgres]",
     "pandera[pandas, polars, ibis]",
@@ -37,6 +37,8 @@ dependencies = [
     "torch",
     "pycaret",
     "rdkit",
+    "anndata",
+    "scanpy[leiden]",
 ]
 
 [dependency-groups]
