@@ -1,7 +1,7 @@
 services:
   postgres:
     image: tyamadabiodataeng/pharma-automl-api-postgres-dev
-    container_name: postgres
+    platform: linux/amd64
     build:
       context: ./postgres
       dockerfile: ../dockerfiles/postgres/Dockerfile
@@ -17,7 +17,7 @@ services:
       - pharmaautomlapi-network
   fastapi:
     image: tyamadabiodataeng/pharma-automl-api-fastapi-dev
-    container_name: fastapi
+    platform: linux/amd64
     build:
       context: ./app
       dockerfile: ../dockerfiles/fastapi/Dockerfile.dev
@@ -32,7 +32,7 @@ services:
       - pharmaautomlapi-network
   nginx:
     image: tyamadabiodataeng/pharma-automl-api-nginx
-    container_name: nginx
+    platform: linux/amd64
     build: 
       context: ./nginx
       dockerfile: ../dockerfiles/nginx/Dockerfile
@@ -46,22 +46,16 @@ services:
     networks:
       - pharmaautomlapi-network
   jupyter:
+    image: tyamadabiodataeng/pharma-automl-api-jupyter
+    platform: linux/amd64
     build: 
       context: ./notebooks
-      dockerfile: ../dockerfiles/jupyter/Dockerfile
-      args:
-        DIR_WORK: "/usr/src"
-        ENV_YAML: "environment.yaml"
-        VENV: "dbms-jupyter"
-    image: tyamadabiodataeng/pharma-automl-api-jupyter
-    container_name: jupyter
-    command: mamba run -n dbms-jupyter jupyter lab --ip=0.0.0.0 --allow-root --LabApp.token=''
+      dockerfile: ../dockerfiles/jupyter/Dockerfile 
+    command: jupyter lab --ip=0.0.0.0 --allow-root --LabApp.token=''
     ports:
      - "8888:8888"
     volumes:
-     - ./notebooks:/usr/src
-    tty: true
-    stdin_open: true
+     - ./notebooks:/app
     depends_on:
       - nginx
     networks:
