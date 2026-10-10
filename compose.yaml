@@ -1,6 +1,7 @@
 services:
   postgres:
     image: tyamadabiodataeng/pharma-automl-api-postgres
+    platform: linux/amd64
     build:
       context: ./postgres
       dockerfile: ../dockerfiles/postgres/Dockerfile
@@ -16,6 +17,7 @@ services:
       - pharmaautomlapi-network
   fastapi:
     image: tyamadabiodataeng/pharma-automl-api-fastapi
+    platform: linux/amd64
     build:
       context: ./app
       dockerfile: ../dockerfiles/fastapi/Dockerfile
@@ -30,6 +32,7 @@ services:
       - pharmaautomlapi-network
   nginx:
     image: tyamadabiodataeng/pharma-automl-api-nginx
+    platform: linux/amd64
     build: 
       context: ./nginx
       dockerfile: ../dockerfiles/nginx/Dockerfile
