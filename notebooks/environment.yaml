@@ -1,6 +1,7 @@
 name: automl-api-jupyter
 channels:
   - conda-forge
+  - bioconda
 dependencies:
   - python=3.12
   - black
@@ -16,10 +17,6 @@ dependencies:
   - numpy
   - matplotlib
   - openpyxl
-  - python-dotenv
-  - psycopg
-  - sqlalchemy
-  - sqlalchemy-utils
   - pandas
   - polars-lts-cpu
   - ibis-framework
@@ -29,9 +26,17 @@ dependencies:
   - ipywidgets
   - ipympl
   - ipytest
-  - pygwalker
-  - pydantic
-  - sqlmodel
-  - sqlacodegen
   - pandera
   - rdkit
+  - anndata
+  - scanpy
+  - r-base
+  - r-essentials
+  - r-rlang
+  - r-tidyverse
+  - r-irkernel
+  - r-biocmanager
+  - bioconductor-biocgenerics
+  - bioconductor-biocversion
+  - bioconductor-biobase
+  - bioconductor-anndatar
