@@ -9,7 +9,7 @@ from db.session import get_session
 def get_config():
     env = os.getenv('APP_ENV', 'dev')
 
-    if env in ['prod', 'production']:
+    if env.lower() in ['prod', 'production']:
         return ProdConfig()
     else:
         return DevConfig()
