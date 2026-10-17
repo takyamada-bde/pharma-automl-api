@@ -1,10 +1,7 @@
-from pathlib import Path
-from typing import Union
-
 from sqlalchemy import create_engine, engine, URL
 from sqlalchemy.orm import sessionmaker, Session
 
-from db.config import BaseConfig, DevConfig, ProdConfig
+from db.config import BaseConfig
 
 
 def get_engine(config: BaseConfig) -> engine.Engine:
