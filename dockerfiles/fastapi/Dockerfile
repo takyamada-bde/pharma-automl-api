@@ -1,24 +1,24 @@
-FROM condaforge/miniforge3:latest
+FROM python:3.12
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-ARG DIR_WORK
-WORKDIR ${DIR_WORK}/
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    UV_PROJECT_ENVIRONMENT=/opt/.venv \
+    PATH="/opt/.venv/bin:$PATH"
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        build-essential \
-        gcc \
-        g++ \
-        && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN groupadd -r appgroup && useradd -r -m -d /home/appuser -g appgroup appuser
 
-ARG ENV_YAML
-COPY ${ENV_YAML} ${DIR_WORK}/
-RUN mamba update -y -c conda-forge mamba && \
-    mamba env create -f ${ENV_YAML} && \
-    mamba clean -a -y
+WORKDIR /app
 
-USER ubuntu
+COPY pyproject.toml uv.lock ./
 
-ARG VENV
-CMD ["mamba", "run", "-n", "${VENV}", "/bin/bash"]
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev --no-cache --compile-bytecode
+
+COPY --chown=appuser:appgroup . .
+
+USER appuser
+
+EXPOSE 8000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
