@@ -50,8 +50,8 @@ services:
     platform: linux/amd64
     build: 
       context: ./notebooks
-      dockerfile: ../dockerfiles/jupyter/Dockerfile 
-    command: jupyter lab --ip=0.0.0.0 --allow-root --LabApp.token=''
+      dockerfile: ../dockerfiles/jupyter/Dockerfile
+    command: pixi run lab
     ports:
      - "8888:8888"
     volumes:
