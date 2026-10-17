@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+DB_DIR = Path(__file__).resolve().parent
 
 class BaseConfig(BaseSettings):
     debug: bool = False
@@ -13,11 +16,11 @@ class BaseConfig(BaseSettings):
 
 class DevConfig(BaseConfig):
     model_config = SettingsConfigDict(
-        env_file='.env.dev', env_file_encoding='utf-8'
+        env_file=DB_DIR / '.env.dev', env_file_encoding='utf-8'
     )
 
 
 class ProdConfig(BaseConfig):
     model_config = SettingsConfigDict(
-        env_file='.env', env_file_encoding='utf-8'
+        env_file=DB_DIR / '.env', env_file_encoding='utf-8'
     )
