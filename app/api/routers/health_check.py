@@ -2,7 +2,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from .base import router, router_dev
+from .base import router
 from api.crud.health_check import check_connection
 from api.dependencies import get_db_session
 
