@@ -26,12 +26,12 @@ def get_engine(dotenv_path: Union[Path, str]) -> engine.Engine:
     config = dotenv_values(DB_DIR / dotenv_path)
     url_object = URL.create(
         "postgresql+psycopg",
-        username=config["POSTGRES_USER"],
-        password=config["POSTGRES_PASSWORD"],  # plain (unescaped) text
-        host=config.get("POSTGRES_HOST", "postgres"),
-        port=config.get("POSTGRES_PORT", "5432"),
-        database=config.get("POSTGRES_DB", "postgres"),
-        query={"options": f"-c search_path={config.get('POSTGRES_SCHEMA', 'public')}"},
+        username=config["DATABASE_USER"],
+        password=config["DATABASE_PASSWORD"],  # plain (unescaped) text
+        host=config.get("DATABASE_HOST", "postgres"),
+        port=config.get("DATABASE_PORT", "5432"),
+        database=config.get("DATABASE_DB", "postgres"),
+        query={"options": f"-c search_path={config.get('DATABASE_SCHEMA', 'public')}"},
     )
     engine = create_engine(url_object)
     return engine
