@@ -1,20 +1,23 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+from api.dependencies import get_config
 from api.routers import base
 
-app = FastAPI()
+config = get_config()
+app = FastAPI(debug=config.debug)
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/media", StaticFiles(directory="media"), name="media")
+app.mount('/static', StaticFiles(directory='static'), name='static')
+app.mount('/media', StaticFiles(directory='media'), name='media')
 
-app.include_router(
-    base.router_dev,
-    prefix="/api-dev",
-    tags=["Development"],
-)
 app.include_router(
     base.router,
-    prefix="/api",
-    tags=["Production"],
+    prefix='/api'
 )
+
+if config.debug:
+    from debug_toolbar.middleware import DebugToolbarMiddleware
+    app.add_middleware(
+        DebugToolbarMiddleware,
+        #panels=['debug_toolbar.panels.sqlalchemy.SQLAlchemyPanel']
+    )
